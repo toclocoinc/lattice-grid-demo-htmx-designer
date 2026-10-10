@@ -65,7 +65,7 @@ let saved = {
         { id: 'week', kind: 'calendar', title: 'This fortnight', source: 'items',
           options: { view: 'week', date: '2026-10-12', startProperty: 'start', endProperty: 'end', card: { title: 'title' } } },
         { id: 'plan', kind: 'gantt', title: 'Plan', source: 'items',
-          options: { projectStart: '2026-10-05', fields: { id: 'id', name: 'title', start: 'start', end: 'end' }, split: { zoom: 'week' } } },
+          options: { fields: { id: 'id', name: 'title', start: 'start', end: 'end' }, split: { zoom: 'week' } } },
       ],
     },
   }],

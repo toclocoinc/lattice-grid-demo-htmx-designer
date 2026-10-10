@@ -3,10 +3,10 @@
 // are registered, and htmx itself last. htmx then processes the page and fires
 // htmx:load for the server-rendered markup, which is what builds the Designer.
 // No mount call anywhere.
-import { installMockServer } from './src/mock-server.js';
-import { routes } from './src/server.js';
+import { installMockServer } from './src/mock-server.js?v=202610101510';
+import { routes } from './src/server.js?v=202610101510';
 
-const GRID = 'https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.97.0';
+const GRID = 'https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.98.0';
 const HTMX = 'https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js';
 const HTMX_SRI = 'sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+';
 // Public, domain-bound key for toclocoinc.github.io; on localhost no key is needed.
@@ -25,10 +25,13 @@ installMockServer(routes);
 for (const file of ['lattice-grid', 'modules/layout', 'modules/kpi', 'modules/calendar', 'modules/kanban', 'modules/gantt', 'modules/designer']) {
   await loadScript(`${GRID}/${file}.min.js`);
 }
-// One call licenses every script build; the htmx module is an ES module with its own copy, so it takes one more.
+// One call licenses every build, the htmx module included.
 globalThis.LatticeGrid.setLicence(LICENCE);
-const lattice = await import('@toclocoinc/lattice-grid/modules/htmx');
-lattice.setLicence(LICENCE);
+await import('@toclocoinc/lattice-grid/modules/htmx');
+// History URLs are the full page path, so Back works wherever the page is served from.
+for (const el of document.querySelectorAll('[hx-push-url]')) {
+  el.setAttribute('hx-push-url', location.pathname + el.getAttribute('hx-push-url').slice(el.getAttribute('hx-push-url').indexOf('?')));
+}
 await loadScript(HTMX, { integrity: HTMX_SRI, crossorigin: 'anonymous' });
 
 // The request log: one line per request the stand-in server answered.

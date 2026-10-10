@@ -6,12 +6,12 @@
 <title>htmx Dashboard Designer over a Server Table | Lattice Grid</title>
 <meta name="description" content="An htmx dashboard Designer built from saved state over a server-rendered table: swap the source with hx-get, post each edit with hx-post, and keep the page on Back.">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.97.0/lattice-grid.min.css">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.98.0/lattice-grid.min.css">
+<link rel="stylesheet" href="styles.css?v=202610101510">
 <!-- The grid comes from the published package. To use a newer release, change the version in these lines. -->
 <script type="importmap">
 { "imports": {
-  "@toclocoinc/lattice-grid/modules/htmx": "https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.97.0/modules/htmx.esm.min.js" } }
+  "@toclocoinc/lattice-grid/modules/htmx": "https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.98.0/modules/htmx.esm.min.js" } }
 </script>
 </head>
 <body>
@@ -114,7 +114,7 @@
 <div data-lattice-designer data-lattice-bind="items" hx-post="/htmx-demo/designer/save" hx-trigger="lattice:designer-change"
   hx-vals='js:{state: JSON.stringify(event.detail.state), cause: event.detail.cause}'
   hx-target="#save-status" hx-swap="innerHTML" style="height:calc(100vh - 300px); min-height:640px"></div>
-<script type="application/json" data-lattice-config>{"mode":"edit","state":{"schemaVersion":1,"selectedPageId":"delivery","panels":{},"pages":[{"id":"delivery","title":"Delivery","spec":{"layout":{"columns":1,"rows":3,"overflowY":"scroll","rowHeight":"300px","windows":[{"id":"board","xPos":1,"yPos":1,"xSize":1,"ySize":1},{"id":"week","xPos":1,"yPos":2,"xSize":1,"ySize":1},{"id":"plan","xPos":1,"yPos":3,"xSize":1,"ySize":1}]},"panels":[{"id":"board","kind":"board","title":"By status","source":"items","options":{"columnProperty":"status","columns":[{"id":"Todo","title":"Todo"},{"id":"Doing","title":"Doing"},{"id":"Done","title":"Done"}],"card":{"title":"title","subtitle":"owner"}}},{"id":"week","kind":"calendar","title":"This fortnight","source":"items","options":{"view":"week","date":"2026-10-12","startProperty":"start","endProperty":"end","card":{"title":"title"}}},{"id":"plan","kind":"gantt","title":"Plan","source":"items","options":{"projectStart":"2026-10-05","fields":{"id":"id","name":"title","start":"start","end":"end"},"split":{"zoom":"week"}}}]}}]}}</script></div></div>
+<script type="application/json" data-lattice-config>{"mode":"edit","state":{"schemaVersion":1,"selectedPageId":"delivery","panels":{},"pages":[{"id":"delivery","title":"Delivery","spec":{"layout":{"columns":1,"rows":3,"overflowY":"scroll","rowHeight":"300px","windows":[{"id":"board","xPos":1,"yPos":1,"xSize":1,"ySize":1},{"id":"week","xPos":1,"yPos":2,"xSize":1,"ySize":1},{"id":"plan","xPos":1,"yPos":3,"xSize":1,"ySize":1}]},"panels":[{"id":"board","kind":"board","title":"By status","source":"items","options":{"columnProperty":"status","columns":[{"id":"Todo","title":"Todo"},{"id":"Doing","title":"Doing"},{"id":"Done","title":"Done"}],"card":{"title":"title","subtitle":"owner"}}},{"id":"week","kind":"calendar","title":"This fortnight","source":"items","options":{"view":"week","date":"2026-10-12","startProperty":"start","endProperty":"end","card":{"title":"title"}}},{"id":"plan","kind":"gantt","title":"Plan","source":"items","options":{"fields":{"id":"id","name":"title","start":"start","end":"end"},"split":{"zoom":"week"}}}]}}]}}</script></div></div>
       <p id="save-status" class="demo-status" aria-live="polite"></p>
     </div>
   </div>
@@ -132,6 +132,6 @@
   </aside>
 </main>
 <footer>Built with <a href="https://www.latticegrid.dev/htmx/">Lattice Grid</a>. No keys, no analytics.</footer>
-<script type="module" src="main.js"></script>
+<script type="module" src="main.js?v=202610101510"></script>
 </body>
 </html>
