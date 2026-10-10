@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>htmx Dashboard Designer over a Server Table | Lattice Grid</title>
+<meta name="description" content="An htmx dashboard Designer built from saved state over a server-rendered table: swap the source with hx-get, post each edit with hx-post, and keep the page on Back.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.97.0/lattice-grid.min.css">
+<link rel="stylesheet" href="styles.css">
+<!-- The grid comes from the published package. To use a newer release, change the version in these lines. -->
+<script type="importmap">
+{ "imports": {
+  "@toclocoinc/lattice-grid/modules/htmx": "https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.97.0/modules/htmx.esm.min.js" } }
+</script>
+</head>
+<body>
+<header>
+  <h1>htmx dashboard Designer over a server table</h1>
+  <p class="lede">The server renders a plain table of work items for three teams and sends the dashboard the author last saved; Lattice builds a Board, a Calendar and a Gantt chart over that table with no mount code, and htmx handles the swap, the save and Back. A stand-in server answers htmx's requests in your browser, so nothing leaves the page.</p>
+  <p class="links"><a href="https://github.com/toclocoinc/lattice-grid-demo-htmx-designer">Code on GitHub</a>
+  <a href="https://www.latticegrid.dev/htmx/">Lattice Grid with htmx</a></p>
+</header>
+<main class="showcase">
+  <div class="demo">
+    <div id="htmx-history" hx-history-elt>
+      <div id="designer-view"><div class="view"><div class="filters" id="team-filters" ><button hx-get="/htmx-demo/designer/source?team=" hx-target="#source"
+      hx-push-url="/lattice-grid-demo-htmx-designer/?team=" aria-pressed="true">All teams</button>
+  <button hx-get="/htmx-demo/designer/source?team=Growth" hx-target="#source"
+      hx-push-url="/lattice-grid-demo-htmx-designer/?team=Growth" aria-pressed="false">Growth</button>
+  <button hx-get="/htmx-demo/designer/source?team=Platform" hx-target="#source"
+      hx-push-url="/lattice-grid-demo-htmx-designer/?team=Platform" aria-pressed="false">Platform</button>
+  <button hx-get="/htmx-demo/designer/source?team=Design" hx-target="#source"
+      hx-push-url="/lattice-grid-demo-htmx-designer/?team=Design" aria-pressed="false">Design</button></div>
+<div id="source"><table id="items" data-lattice-grid>
+  <thead><tr><th data-field="id">Ref</th><th data-field="title">Work item</th><th data-field="status">Status</th>
+    <th data-field="owner">Owner</th><th data-field="team">Team</th><th data-field="start" data-type="date">Start</th>
+    <th data-field="end" data-type="date">End</th></tr></thead>
+  <tbody>
+  <tr data-lattice-row="W-101"><td>W-101</td><td>Audit checkout funnel</td><td>Done</td><td>Ana Lopez</td><td>Growth</td>
+    <td>2026-10-05</td><td>2026-10-07</td></tr>
+  <tr data-lattice-row="W-102"><td>W-102</td><td>Redesign pricing table</td><td>Done</td><td>Dev Patel</td><td>Growth</td>
+    <td>2026-10-06</td><td>2026-10-11</td></tr>
+  <tr data-lattice-row="W-103"><td>W-103</td><td>Write the launch email</td><td>Doing</td><td>Chloe Marsh</td><td>Growth</td>
+    <td>2026-10-07</td><td>2026-10-13</td></tr>
+  <tr data-lattice-row="W-104"><td>W-104</td><td>Set up the A/B test</td><td>Doing</td><td>Ben Okafor</td><td>Growth</td>
+    <td>2026-10-12</td><td>2026-10-17</td></tr>
+  <tr data-lattice-row="W-105"><td>W-105</td><td>Webinar landing page</td><td>Doing</td><td>Eva Lindqvist</td><td>Growth</td>
+    <td>2026-10-13</td><td>2026-10-18</td></tr>
+  <tr data-lattice-row="W-106"><td>W-106</td><td>Referral scheme brief</td><td>Todo</td><td>Femi Adeyemi</td><td>Growth</td>
+    <td>2026-10-19</td><td>2026-10-22</td></tr>
+  <tr data-lattice-row="W-107"><td>W-107</td><td>Review attribution</td><td>Doing</td><td>Ana Lopez</td><td>Growth</td>
+    <td>2026-10-09</td><td>2026-10-12</td></tr>
+  <tr data-lattice-row="W-108"><td>W-108</td><td>Quarterly results page</td><td>Todo</td><td>Dev Patel</td><td>Growth</td>
+    <td>2026-10-21</td><td>2026-10-27</td></tr>
+  <tr data-lattice-row="W-109"><td>W-109</td><td>Partner marketing plan</td><td>Todo</td><td>Chloe Marsh</td><td>Growth</td>
+    <td>2026-10-14</td><td>2026-10-21</td></tr>
+  <tr data-lattice-row="W-110"><td>W-110</td><td>Win-back campaign</td><td>Todo</td><td>Ben Okafor</td><td>Growth</td>
+    <td>2026-10-16</td><td>2026-10-21</td></tr>
+  <tr data-lattice-row="W-111"><td>W-111</td><td>Onboarding emails</td><td>Todo</td><td>Eva Lindqvist</td><td>Growth</td>
+    <td>2026-10-20</td><td>2026-10-24</td></tr>
+  <tr data-lattice-row="W-112"><td>W-112</td><td>Logistics case study</td><td>Todo</td><td>Femi Adeyemi</td><td>Growth</td>
+    <td>2026-10-22</td><td>2026-10-27</td></tr>
+  <tr data-lattice-row="W-201"><td>W-201</td><td>Move billing to ledger</td><td>Done</td><td>Ben Okafor</td><td>Platform</td>
+    <td>2026-10-05</td><td>2026-10-07</td></tr>
+  <tr data-lattice-row="W-202"><td>W-202</td><td>Rotate the API keys</td><td>Done</td><td>Eva Lindqvist</td><td>Platform</td>
+    <td>2026-10-07</td><td>2026-10-12</td></tr>
+  <tr data-lattice-row="W-203"><td>W-203</td><td>Cache pricing lookups</td><td>Doing</td><td>Femi Adeyemi</td><td>Platform</td>
+    <td>2026-10-09</td><td>2026-10-15</td></tr>
+  <tr data-lattice-row="W-204"><td>W-204</td><td>Retire the v1 webhooks</td><td>Doing</td><td>Chloe Marsh</td><td>Platform</td>
+    <td>2026-10-12</td><td>2026-10-17</td></tr>
+  <tr data-lattice-row="W-205"><td>W-205</td><td>Load test export queue</td><td>Doing</td><td>Ana Lopez</td><td>Platform</td>
+    <td>2026-10-14</td><td>2026-10-19</td></tr>
+  <tr data-lattice-row="W-206"><td>W-206</td><td>Failover drill</td><td>Todo</td><td>Dev Patel</td><td>Platform</td>
+    <td>2026-10-21</td><td>2026-10-24</td></tr>
+  <tr data-lattice-row="W-207"><td>W-207</td><td>Upgrade the job runner</td><td>Doing</td><td>Ben Okafor</td><td>Platform</td>
+    <td>2026-10-09</td><td>2026-10-12</td></tr>
+  <tr data-lattice-row="W-208"><td>W-208</td><td>Audit log retention</td><td>Todo</td><td>Eva Lindqvist</td><td>Platform</td>
+    <td>2026-10-22</td><td>2026-10-28</td></tr>
+  <tr data-lattice-row="W-209"><td>W-209</td><td>Single sign-on rollout</td><td>Todo</td><td>Femi Adeyemi</td><td>Platform</td>
+    <td>2026-10-16</td><td>2026-10-23</td></tr>
+  <tr data-lattice-row="W-210"><td>W-210</td><td>Reduce build times</td><td>Todo</td><td>Chloe Marsh</td><td>Platform</td>
+    <td>2026-10-16</td><td>2026-10-21</td></tr>
+  <tr data-lattice-row="W-211"><td>W-211</td><td>Payment queue alerts</td><td>Todo</td><td>Ana Lopez</td><td>Platform</td>
+    <td>2026-10-21</td><td>2026-10-25</td></tr>
+  <tr data-lattice-row="W-212"><td>W-212</td><td>Move images to storage</td><td>Todo</td><td>Dev Patel</td><td>Platform</td>
+    <td>2026-10-24</td><td>2026-10-29</td></tr>
+  <tr data-lattice-row="W-301"><td>W-301</td><td>Colour palette audit</td><td>Done</td><td>Grace Tan</td><td>Design</td>
+    <td>2026-10-06</td><td>2026-10-08</td></tr>
+  <tr data-lattice-row="W-302"><td>W-302</td><td>Mobile navigation</td><td>Done</td><td>Hugo Martin</td><td>Design</td>
+    <td>2026-10-07</td><td>2026-10-12</td></tr>
+  <tr data-lattice-row="W-303"><td>W-303</td><td>Icon set refresh</td><td>Doing</td><td>Ines Costa</td><td>Design</td>
+    <td>2026-10-08</td><td>2026-10-14</td></tr>
+  <tr data-lattice-row="W-304"><td>W-304</td><td>Empty report states</td><td>Doing</td><td>Jonas Weber</td><td>Design</td>
+    <td>2026-10-13</td><td>2026-10-18</td></tr>
+  <tr data-lattice-row="W-305"><td>W-305</td><td>Accessibility review</td><td>Doing</td><td>Grace Tan</td><td>Design</td>
+    <td>2026-10-14</td><td>2026-10-19</td></tr>
+  <tr data-lattice-row="W-306"><td>W-306</td><td>Widget gallery</td><td>Todo</td><td>Hugo Martin</td><td>Design</td>
+    <td>2026-10-20</td><td>2026-10-23</td></tr>
+  <tr data-lattice-row="W-307"><td>W-307</td><td>Checklist artwork</td><td>Doing</td><td>Grace Tan</td><td>Design</td>
+    <td>2026-10-10</td><td>2026-10-13</td></tr>
+  <tr data-lattice-row="W-308"><td>W-308</td><td>Help centre artwork</td><td>Todo</td><td>Hugo Martin</td><td>Design</td>
+    <td>2026-10-22</td><td>2026-10-28</td></tr>
+  <tr data-lattice-row="W-309"><td>W-309</td><td>Dark theme tokens</td><td>Todo</td><td>Ines Costa</td><td>Design</td>
+    <td>2026-10-15</td><td>2026-10-22</td></tr>
+  <tr data-lattice-row="W-310"><td>W-310</td><td>Pricing page prototype</td><td>Todo</td><td>Jonas Weber</td><td>Design</td>
+    <td>2026-10-17</td><td>2026-10-22</td></tr>
+  <tr data-lattice-row="W-311"><td>W-311</td><td>Export usability tests</td><td>Todo</td><td>Grace Tan</td><td>Design</td>
+    <td>2026-10-21</td><td>2026-10-25</td></tr>
+  <tr data-lattice-row="W-312"><td>W-312</td><td>Component docs</td><td>Todo</td><td>Hugo Martin</td><td>Design</td>
+    <td>2026-10-23</td><td>2026-10-28</td></tr>
+  </tbody>
+</table></div>
+<div data-lattice-designer data-lattice-bind="items" hx-post="/htmx-demo/designer/save" hx-trigger="lattice:designer-change"
+  hx-vals='js:{state: JSON.stringify(event.detail.state), cause: event.detail.cause}'
+  hx-target="#save-status" hx-swap="innerHTML" style="height:calc(100vh - 300px); min-height:640px"></div>
+<script type="application/json" data-lattice-config>{"mode":"edit","state":{"schemaVersion":1,"selectedPageId":"delivery","panels":{},"pages":[{"id":"delivery","title":"Delivery","spec":{"layout":{"columns":1,"rows":3,"overflowY":"scroll","rowHeight":"300px","windows":[{"id":"board","xPos":1,"yPos":1,"xSize":1,"ySize":1},{"id":"week","xPos":1,"yPos":2,"xSize":1,"ySize":1},{"id":"plan","xPos":1,"yPos":3,"xSize":1,"ySize":1}]},"panels":[{"id":"board","kind":"board","title":"By status","source":"items","options":{"columnProperty":"status","columns":[{"id":"Todo","title":"Todo"},{"id":"Doing","title":"Doing"},{"id":"Done","title":"Done"}],"card":{"title":"title","subtitle":"owner"}}},{"id":"week","kind":"calendar","title":"This fortnight","source":"items","options":{"view":"week","date":"2026-10-12","startProperty":"start","endProperty":"end","card":{"title":"title"}}},{"id":"plan","kind":"gantt","title":"Plan","source":"items","options":{"projectStart":"2026-10-05","fields":{"id":"id","name":"title","start":"start","end":"end"},"split":{"zoom":"week"}}}]}}]}}</script></div></div>
+      <p id="save-status" class="demo-status" aria-live="polite"></p>
+    </div>
+  </div>
+  <aside>
+    <h2>Try the five steps</h2>
+    <ol class="steps">
+      <li><strong>Built on load.</strong> The Designer was declared with saved state; it built a dashboard of a Board, a Calendar and a Gantt over the work-items table.</li>
+      <li><strong>Swap.</strong> Pick a team. hx-get swaps only the source table, and the Board, Calendar and Gantt all refresh from it.</li>
+      <li><strong>Edit.</strong> Drag a widget by its title bar to a new place. lattice:designer-change is posted with hx-post and the server confirms below.</li>
+      <li><strong>Add a page.</strong> Press Add page in the Designer toolbar. The new page is selected and the state is posted again.</li>
+      <li><strong>Back.</strong> Select a page, swap the team, select another page, then press the browser Back button. The earlier team and page return.</li>
+    </ol>
+    <h3>Requests the stand-in server answered</h3>
+    <ul id="request-log" class="log" aria-live="polite"><li>none yet</li></ul>
+  </aside>
+</main>
+<footer>Built with <a href="https://www.latticegrid.dev/htmx/">Lattice Grid</a>. No keys, no analytics.</footer>
+<script type="module" src="main.js"></script>
+</body>
+</html>
