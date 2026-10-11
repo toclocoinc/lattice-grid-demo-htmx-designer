@@ -97,6 +97,39 @@ try {
     check(back.pressed === 'Growth' && back.tabs === 'Delivery*|Page 2' && back.sourceRows === 12 && !back.board && back.calendar && back.plan, `Back: team ${back.pressed}, tabs ${back.tabs} (before: ${before.pressed}, ${before.tabs})`);
     await page.screenshot({ path: `shots/${tag}-5-back.png` });
 
+    // The URL's own filter: a fresh open of each filter URL, and ten reloads of the pushed URL, must all
+    // build the view for that filter (rendered before hydration, button pressed, htmx started).
+    const rows = { Growth: 12, Platform: 12, Design: 12, '': 36 };
+    const built = (s, team) => s.pressed === (team || 'All teams') && s.sourceRows === rows[team];
+    const rootUrl = url.split('?')[0];
+    for (const team of ['', 'Growth', 'Platform', 'Design']) {
+      await page.goto(team ? `${rootUrl}?team=${team}` : rootUrl);
+      await page.waitForFunction(() => document.querySelectorAll('.lat-layout__window').length === 3, { timeout: 30000 });
+      await sleep(1500);
+      check(built(await snap(page), team), `open ${team ? `?team=${team}` : 'bare URL'}: ${team || 'All teams'} pressed, built`);
+    }
+    await page.goto(rootUrl);
+    await page.waitForFunction(() => document.querySelectorAll('.lat-layout__window').length === 3, { timeout: 30000 });
+    await click(page, 'Platform');
+    await sleep(2000);
+    let reloads = 0;
+    for (let i = 0; i < 10; i += 1) {
+      await page.reload();
+      try { await page.waitForFunction(() => document.querySelectorAll('.lat-layout__window').length === 3, { timeout: 15000 }); } catch { break; }
+      await sleep(800);
+      if (built(await snap(page), 'Platform')) reloads += 1;
+    }
+    check(reloads === 10 && new URL(page.url()).search === '?team=Platform', `click Platform, then 10 reloads: ${reloads}/10 built with Platform pressed`);
+    await click(page, 'Design');
+    await sleep(2000);
+    await page.reload();
+    await page.waitForFunction(() => document.querySelectorAll('.lat-layout__window').length === 3, { timeout: 15000 });
+    await sleep(1500);
+    await page.goBack();
+    await sleep(2500);
+    const afterRefresh = await snap(page);
+    check(afterRefresh.pressed === 'Platform' && afterRefresh.sourceRows === 12 && afterRefresh.tabs.length > 0, `Back after Refresh: ${afterRefresh.pressed}, ${afterRefresh.sourceRows} rows`);
+
     check(problems.length === 0, `no console errors or warnings ${problems.join(' / ')}`);
     await page.close();
   }

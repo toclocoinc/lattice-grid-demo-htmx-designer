@@ -2,11 +2,13 @@
 // the Designer's widgets need and the Lattice htmx module next so their listeners
 // are registered, and htmx itself last. htmx then processes the page and fires
 // htmx:load for the server-rendered markup, which is what builds the Designer.
-// No mount call anywhere.
-import { installMockServer } from './src/mock-server.js?v=202610101510';
-import { routes } from './src/server.js?v=202610101510';
+// No mount call anywhere. Before any of that, the stand-in server answers the page's own
+// URL: it renders the fragment for location.search into the page, the way a real server
+// would, so the Designer is built once, for the URL's filter, and never for the default.
+import { installMockServer } from './src/mock-server.js?v=202610111200';
+import { routes, designerFragment } from './src/server.js?v=202610111200';
 
-const GRID = 'https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.98.0';
+const GRID = 'https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.98.3';
 const HTMX = 'https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js';
 const HTMX_SRI = 'sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+';
 // Public, domain-bound key for toclocoinc.github.io; on localhost no key is needed.
@@ -22,6 +24,8 @@ const loadScript = (src, attrs = {}) => new Promise((resolve, reject) => {
 });
 
 installMockServer(routes);
+const team = new URLSearchParams(location.search).get('team') || '';
+document.getElementById('designer-view').innerHTML = designerFragment(['Growth', 'Platform', 'Design'].includes(team) ? team : '');
 for (const file of ['lattice-grid', 'modules/layout', 'modules/kpi', 'modules/calendar', 'modules/kanban', 'modules/gantt', 'modules/designer']) {
   await loadScript(`${GRID}/${file}.min.js`);
 }
@@ -32,6 +36,9 @@ await import('@toclocoinc/lattice-grid/modules/htmx');
 for (const el of document.querySelectorAll('[hx-push-url]')) {
   el.setAttribute('hx-push-url', location.pathname + el.getAttribute('hx-push-url').slice(el.getAttribute('hx-push-url').indexOf('?')));
 }
+// htmx 2.0.4 starts on DOMContentLoaded unless readyState is already 'complete', so a script
+// added in between never starts. Wait for the window load event, then add it.
+if (document.readyState !== 'complete') await new Promise((r) => { window.addEventListener('load', r, { once: true }); });
 await loadScript(HTMX, { integrity: HTMX_SRI, crossorigin: 'anonymous' });
 
 // The request log: one line per request the stand-in server answered.
