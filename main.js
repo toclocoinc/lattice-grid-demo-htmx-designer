@@ -5,10 +5,10 @@
 // No mount call anywhere. Before any of that, the stand-in server answers the page's own
 // URL: it renders the fragment for location.search into the page, the way a real server
 // would, so the Designer is built once, for the URL's filter, and never for the default.
-import { installMockServer } from './src/mock-server.js?v=202610111200';
-import { routes, designerFragment } from './src/server.js?v=202610111200';
+import { installMockServer } from './src/mock-server.js?v=202610121200';
+import { routes, designerFragment } from './src/server.js?v=202610121200';
 
-const GRID = 'https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.98.3';
+const GRID = 'https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.99.0';
 const HTMX = 'https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js';
 const HTMX_SRI = 'sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+';
 // Public, domain-bound key for toclocoinc.github.io; on localhost no key is needed.
