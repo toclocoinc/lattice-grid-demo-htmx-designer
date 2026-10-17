@@ -7,7 +7,17 @@
 <meta name="description" content="An htmx dashboard Designer built from saved state over a server-rendered table: swap the source with hx-get, post each edit with hx-post, and keep the page on Back.">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/lattice-grid.min.css">
-<link rel="stylesheet" href="styles.css?v=20261017a">
+<link rel="stylesheet" href="styles.css?v=20261017b">
+<!-- Fetch every script while the page is still parsing, all at once; main.js runs them in order. -->
+<link rel="preload" as="script" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/lattice-grid.min.js">
+<link rel="preload" as="script" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/modules/layout.min.js">
+<link rel="preload" as="script" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/modules/kpi.min.js">
+<link rel="preload" as="script" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/modules/calendar.min.js">
+<link rel="preload" as="script" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/modules/kanban.min.js">
+<link rel="preload" as="script" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/modules/gantt.min.js">
+<link rel="preload" as="script" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/modules/designer.min.js">
+<link rel="modulepreload" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/modules/htmx.esm.min.js">
+<link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous">
 <!-- The grid comes from the published package. To use a newer release, change the version in these lines. -->
 <script type="importmap">
 { "imports": {
@@ -22,7 +32,7 @@
   <a href="https://www.latticegrid.dev/htmx/">Lattice Grid with htmx</a></p>
 </header>
 <main class="showcase">
-  <div class="demo">
+  <div class="demo is-loading" aria-busy="true">
     <div id="htmx-history" hx-history-elt>
       <div id="designer-view"><div class="view"><div class="filters" id="team-filters" ><button hx-get="/htmx-demo/designer/source?team=" hx-target="#source"
       hx-push-url="/lattice-grid-demo-htmx-designer/?team=" aria-pressed="true">All teams</button>
@@ -132,6 +142,6 @@
   </aside>
 </main>
 <footer>Built with <a href="https://www.latticegrid.dev/htmx/">Lattice Grid</a>. No keys, no analytics.</footer>
-<script type="module" src="main.js?v=20261017a"></script>
+<script type="module" src="main.js?v=20261017b"></script>
 </body>
 </html>
