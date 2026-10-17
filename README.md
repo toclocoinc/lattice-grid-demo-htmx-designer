@@ -24,7 +24,7 @@ npm run serve        # http://localhost:8000/
 npm run verify       # headless Chrome check of the steps at 1440x900 and 1920x1080 (needs Chrome)
 ```
 
-The grid and its modules load from the published `@toclocoinc/lattice-grid` package on jsDelivr; change the version in `index.html` and `main.js` to move to a newer release. On `localhost` no licence key is needed; the key in `main.js` is the public one for `toclocoinc.github.io`.
+The grid and its modules load from the published `@toclocoinc/lattice-grid` package on cdn.latticegrid.dev; change the version in `index.html` and `main.js` to move to a newer release. On `localhost` no licence key is needed; the key in `main.js` is the public one for `toclocoinc.github.io`.
 
 ## Files
 

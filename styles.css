@@ -26,6 +26,6 @@ footer { font-size: 12px; color: #5b6570; padding: 0 18px 18px; }
 footer a { color: #1f6feb; }
 @media (max-width: 1500px) { .showcase { grid-template-columns: 1fr; } aside { display: grid; grid-template-columns: 2fr 1fr; gap: 0 24px; } aside h2, aside ol { grid-column: 1; } aside h3, aside ul { grid-column: 2; grid-row: 1 / span 2; } aside ul { grid-row: 2; align-self: start; } }
 @media (max-width: 800px) { aside { display: block; } }
-.demo.is-loading { position: relative; min-height: 420px; }
-.demo.is-loading > * { visibility: hidden; }
-.demo.is-loading::before { content: "Loading the dashboard…"; position: absolute; inset: 0; display: grid; place-items: center; color: #5b6570; font-size: 13px; }
+.lg-loading .demo { position: relative; min-height: 420px; }
+.lg-loading .demo > * { visibility: hidden; }
+.lg-loading .demo::before { content: "Loading the dashboard…"; position: absolute; inset: 0; display: grid; place-items: center; color: #5b6570; font-size: 13px; }

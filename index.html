@@ -7,7 +7,9 @@
 <meta name="description" content="An htmx dashboard Designer built from saved state over a server-rendered table: swap the source with hx-get, post each edit with hx-post, and keep the page on Back.">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/lattice-grid.min.css">
-<link rel="stylesheet" href="styles.css?v=20261017b">
+<link rel="stylesheet" href="styles.css?v=20261017c">
+<!-- With scripts on, hide the server's table until the Designer is built over it; without them, or if they fail, the table stays readable. -->
+<script>document.documentElement.classList.add('lg-loading'); setTimeout(() => document.documentElement.classList.remove('lg-loading'), 10000);</script>
 <!-- Fetch every script while the page is still parsing, all at once; main.js runs them in order. -->
 <link rel="preload" as="script" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/lattice-grid.min.js">
 <link rel="preload" as="script" href="https://cdn.latticegrid.dev/lattice-grid@1.104.0/modules/layout.min.js">
@@ -32,7 +34,7 @@
   <a href="https://www.latticegrid.dev/htmx/">Lattice Grid with htmx</a></p>
 </header>
 <main class="showcase">
-  <div class="demo is-loading" aria-busy="true">
+  <div class="demo">
     <div id="htmx-history" hx-history-elt>
       <div id="designer-view"><div class="view"><div class="filters" id="team-filters" ><button hx-get="/htmx-demo/designer/source?team=" hx-target="#source"
       hx-push-url="/lattice-grid-demo-htmx-designer/?team=" aria-pressed="true">All teams</button>
@@ -142,6 +144,6 @@
   </aside>
 </main>
 <footer>Built with <a href="https://www.latticegrid.dev/htmx/">Lattice Grid</a>. No keys, no analytics.</footer>
-<script type="module" src="main.js?v=20261017b"></script>
+<script type="module" src="main.js?v=20261017c"></script>
 </body>
 </html>

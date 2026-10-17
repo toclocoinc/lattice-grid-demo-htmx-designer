@@ -5,8 +5,8 @@
 // No mount call anywhere. Before any of that, the stand-in server answers the page's own
 // URL: it renders the fragment for location.search into the page, the way a real server
 // would, so the Designer is built once, for the URL's filter, and never for the default.
-import { installMockServer } from './src/mock-server.js?v=20261017b';
-import { routes, designerFragment } from './src/server.js?v=20261017b';
+import { installMockServer } from './src/mock-server.js?v=20261017c';
+import { routes, designerFragment } from './src/server.js?v=20261017c';
 
 const GRID = 'https://cdn.latticegrid.dev/lattice-grid@1.104.0';
 const HTMX = 'https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js';
@@ -44,13 +44,10 @@ if (document.readyState !== 'complete') await new Promise((r) => { window.addEve
 await loadScript(HTMX, { integrity: HTMX_SRI, crossorigin: 'anonymous' });
 
 // The server's table stays hidden behind a loading line until the Designer is built over it,
-// so the page never shows the raw table first.
-const demo = document.querySelector('.demo');
-const reveal = () => { demo.classList.remove('is-loading'); demo.removeAttribute('aria-busy'); };
-const started = performance.now();
+// so the page never shows the raw table first (the class is set, with a time limit, in the page head).
 (function waitForDesigner() {
-  if (document.querySelector('[data-lattice-designer]')?.__latticeDesigner || performance.now() - started > 15000) reveal();
-  else requestAnimationFrame(waitForDesigner);
+  if (document.querySelector('[data-lattice-designer]')?.__latticeDesigner) document.documentElement.classList.remove('lg-loading');
+  else if (document.documentElement.classList.contains('lg-loading')) requestAnimationFrame(waitForDesigner);
 })();
 
 // The request log: one line per request the stand-in server answered.
