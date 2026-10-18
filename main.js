@@ -1,5 +1,5 @@
 // Order is the whole trick: the stand-in server goes in first, the Lattice scripts
-// the Designer's widgets need and the Lattice htmx module next so their listeners
+// the Designer's widgets need and the Lattice htmx module (its shared build) next so their listeners
 // are registered, and htmx itself last. htmx then processes the page and fires
 // htmx:load for the server-rendered markup, which is what builds the Designer.
 // No mount call anywhere. Before any of that, the stand-in server answers the page's own
@@ -27,13 +27,14 @@ const loadScript = (src, attrs = {}, async = true) => new Promise((resolve, reje
 installMockServer(routes);
 const team = new URLSearchParams(location.search).get('team') || '';
 document.getElementById('designer-view').innerHTML = designerFragment(['Growth', 'Platform', 'Design'].includes(team) ? team : '');
-// All seven are added at once with async off: the browser fetches them in parallel (the
-// page head has already started each download) and still runs them in this order.
-await Promise.all(['lattice-grid', 'modules/layout', 'modules/kpi', 'modules/calendar', 'modules/kanban', 'modules/gantt', 'modules/designer']
+// All eight are added at once with async off: the browser fetches them in parallel (the
+// page head has already started each download) and still runs them in this order. The htmx
+// module is the SHARED build: it takes the grid core from the LatticeGrid global the first
+// script defines, so the page downloads the core once.
+await Promise.all(['lattice-grid', 'modules/layout', 'modules/kpi', 'modules/calendar', 'modules/kanban', 'modules/gantt', 'modules/designer', 'modules/htmx.shared']
   .map((file) => loadScript(`${GRID}/${file}.min.js`, {}, false)));
 // One call licenses every build, the htmx module included.
 globalThis.LatticeGrid.setLicence(LICENCE);
-await import('@toclocoinc/lattice-grid/modules/htmx');
 // History URLs are the full page path, so Back works wherever the page is served from.
 for (const el of document.querySelectorAll('[hx-push-url]')) {
   el.setAttribute('hx-push-url', location.pathname + el.getAttribute('hx-push-url').slice(el.getAttribute('hx-push-url').indexOf('?')));
