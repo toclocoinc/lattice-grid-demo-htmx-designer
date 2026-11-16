@@ -8,7 +8,8 @@
 import { installMockServer } from './src/mock-server.js?v=20261017c';
 import { routes, designerFragment } from './src/server.js?v=20261017c';
 
-const GRID = 'https://cdn.latticegrid.dev/lattice-grid@1.111.5';
+const GRID = 'https://cdn.latticegrid.dev/lattice-grid@1.123.3';
+const STAMP = '?v=20261116a';
 const HTMX = 'https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js';
 const HTMX_SRI = 'sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+';
 // Public, domain-bound key for toclocoinc.github.io; on localhost no key is needed.
@@ -32,7 +33,7 @@ document.getElementById('designer-view').innerHTML = designerFragment(['Growth',
 // module is the SHARED build: it takes the grid core from the LatticeGrid global the first
 // script defines, so the page downloads the core once.
 await Promise.all(['lattice-grid', 'modules/layout', 'modules/kpi', 'modules/calendar', 'modules/kanban', 'modules/gantt', 'modules/designer', 'modules/htmx.shared']
-  .map((file) => loadScript(`${GRID}/${file}.min.js`, {}, false)));
+  .map((file) => loadScript(`${GRID}/${file}.min.js${STAMP}`, {}, false)));
 // One call licenses every build, the htmx module included.
 globalThis.LatticeGrid.setLicence(LICENCE);
 // History URLs are the full page path, so Back works wherever the page is served from.
